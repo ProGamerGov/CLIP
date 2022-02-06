@@ -254,10 +254,13 @@ class CLIP(nn.Module):
                  transformer_layers: int
                  ):
         super().__init__()
-
+        print(embed_dim, image_resolution)
+        print(isinstance(vision_layers, (tuple, list)), vision_layers)
+        print(vision_width, vision_patch_size)
         self.context_length = context_length
 
         if isinstance(vision_layers, (tuple, list)):
+            print("ModifiedResNet")
             vision_heads = vision_width * 32 // 64
             self.visual = ModifiedResNet(
                 layers=vision_layers,
@@ -267,6 +270,7 @@ class CLIP(nn.Module):
                 width=vision_width
             )
         else:
+            print("VisionTransformer")
             vision_heads = vision_width // 64
             self.visual = VisionTransformer(
                 input_resolution=image_resolution,
