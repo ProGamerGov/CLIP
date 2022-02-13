@@ -277,6 +277,7 @@ class CLIP(nn.Module):
                 output_dim=embed_dim
             )
 
+        print(transformer_width, transformer_layers, transformer_heads)
         self.transformer = Transformer(
             width=transformer_width,
             layers=transformer_layers,
