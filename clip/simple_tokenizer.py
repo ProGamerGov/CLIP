@@ -58,13 +58,18 @@ def whitespace_clean(text):
     text = text.strip()
     return text
 
+def save_to_file(merges):
+    with open('filename.txt', mode='wt', encoding='utf-8') as myfile:
+        myfile.write('\n'.join(merges))
+
 
 class SimpleTokenizer(object):
     def __init__(self, bpe_path: str = default_bpe()):
         self.byte_encoder = bytes_to_unicode()
         self.byte_decoder = {v: k for k, v in self.byte_encoder.items()}
         merges = gzip.open(bpe_path).read().decode("utf-8").split('\n')
-        merges = merges[1:49152-256-2+1]
+        merges = merges[0:49152-256-2+1]
+        save_to_file(merges)
         merges = [tuple(merge.split()) for merge in merges]
         vocab = list(bytes_to_unicode().values())
         vocab = vocab + [v+'</w>' for v in vocab]
